@@ -21,6 +21,14 @@
     <scala.version>2.9.2</scala.version>
   </properties>
 
+  <repositories>
+    <repository>
+     <id>slick</id>
+     <name>slick</name>
+     <url>http://slick.cokeandcode.com/mavenrepo</url>
+    </repository>
+  </repositories>
+
 <!--
   <repositories>
     <repository>
@@ -43,6 +51,11 @@
       <groupId>org.scala-lang</groupId>
       <artifactId>scala-library</artifactId>
       <version>${scala.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>slick</groupId>
+      <artifactId>slick</artifactId>
+      <version>274</version>
     </dependency>
 
     <!-- Test -->
