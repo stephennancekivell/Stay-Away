@@ -8,6 +8,7 @@ class Party {
   val CHARACTER = "E"
   var x = 50
   var y = 50
+  val speed = 3
 
   def draw(g: Graphics) = {
     g.drawString(CHARACTER, x, y)

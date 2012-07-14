@@ -13,7 +13,7 @@ object App {
   }
 
   def isPlayerNearEnemy(p: Player, e: Enemy) = {
-    val THRESH_HOLD = 10
+    val THRESH_HOLD = 30
     if ((e.x - p.x).abs < THRESH_HOLD &&
       (e.y - p.y).abs < THRESH_HOLD)
       true
@@ -25,7 +25,7 @@ object App {
 class App extends Canvas {
   val log = LogFactory.getLog(getClass)
   val frame = new JFrame()
-  val UPDATE_TIME = 100
+  val UPDATE_TIME = 50
   val player = new Player()
   val world = new World()
   val enemies: Set[Enemy] = Set()
