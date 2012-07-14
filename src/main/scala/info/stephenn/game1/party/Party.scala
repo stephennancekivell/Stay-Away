@@ -10,7 +10,6 @@ class Party {
   var y = 50
 
   def draw(g: Graphics) = {
-    log.info("draw")
     g.drawString(CHARACTER, x, y)
   }
 }
