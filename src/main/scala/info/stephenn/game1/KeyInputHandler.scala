@@ -18,5 +18,4 @@ class KeyInputHandler(player: Player) extends KeyAdapter {
       case _ => log.info("unknown keyCode: " + code)
     }
   }
-
 }
