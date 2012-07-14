@@ -28,8 +28,8 @@ class AppTest {
     
     player.x = 50
     player.y = 50
-    enemy.x = 70
-    enemy.y = 70
+    enemy.x = 81
+    enemy.y = 81
     
     assertFalse(App.isPlayerNearEnemy(player, enemy))
   }
