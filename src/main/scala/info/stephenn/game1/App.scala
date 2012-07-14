@@ -18,9 +18,13 @@ class App extends Canvas {
   val SIZE_X = 400
   val SIZE_Y = 400
   val UPDATE_TIME = 100
+  val player = new Player()
+
+  implicit val graphics = getGraphics
 
   override def paint(graphics: Graphics) = {
     graphics.drawRect(square_x % SIZE_X, square_y % SIZE_Y, 10, 20)
+    player.draw(getGraphics)
   }
 
   def go = {
@@ -29,15 +33,17 @@ class App extends Canvas {
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE)
     frame.getContentPane.add(this)
     frame.setVisible(true)
-    this.addKeyListener(new KeyInputHandler)
-    
-    while(true){
-      Thread.sleep(UPDATE_TIME)
+    addKeyListener(new KeyInputHandler(player))
+
+    while (true) {
       updateLogic
-      this.getGraphics.clearRect(0, 0, SIZE_X, SIZE_Y)
-      this.paint(getGraphics)
+      clear
+      paint(getGraphics)
+      Thread.sleep(UPDATE_TIME)
     }
   }
+
+  def clear = getGraphics clearRect (0, 0, SIZE_X, SIZE_Y)
 
   def updateLogic: Unit = {
     square_x += 1
