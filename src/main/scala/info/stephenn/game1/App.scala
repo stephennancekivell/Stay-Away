@@ -13,9 +13,9 @@ object App {
   }
 
   def isPlayerNearEnemy(p: Player, e: Enemy) = {
-    val THRESH_HOLD = 30
-    if ((e.x - p.x).abs < THRESH_HOLD &&
-      (e.y - p.y).abs < THRESH_HOLD)
+    val THRESHOLD = 30
+    if ((e.x - p.x).abs < THRESHOLD &&
+      (e.y - p.y).abs < THRESHOLD)
       true
     else
       false
