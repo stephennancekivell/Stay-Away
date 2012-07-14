@@ -3,6 +3,7 @@ package info.stephenn.game1
 import java.awt.event.KeyAdapter
 import java.awt.event.KeyEvent
 import org.apache.commons.logging.LogFactory
+import info.stephenn.game1.party._
 
 class KeyInputHandler(player: Player) extends KeyAdapter {
   val log = LogFactory.getLog(getClass)
