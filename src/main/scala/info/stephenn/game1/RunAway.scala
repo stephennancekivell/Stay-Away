@@ -8,6 +8,7 @@ import org.newdawn.slick.Image
 import org.newdawn.slick.Input
 import org.newdawn.slick.SlickException
 import org.apache.commons.logging.LogFactory
+import org.newdawn.slick.Color
 
 import info.stephenn.game1.party._
 
@@ -25,6 +26,8 @@ class RunAway extends BasicGame("title") {
   def bullets = parties.filter(_.getClass == classOf[Bullet]).map(_.asInstanceOf[Bullet])
   val NO_ENEMIES = 1
   for (x <- 0 to NO_ENEMIES) parties += newEnemyAtRandomEdge
+  
+  var score = 0
 
   override def init(gc: GameContainer) {
     player.init
@@ -38,15 +41,14 @@ class RunAway extends BasicGame("title") {
       System.exit(0) //TODO game over message.
 
     removeShotEnemies
-
+    
     enemies.foreach(_.act(player))
     bullets.foreach(_.act)
-
+    
     makeNewEnemies
   }
 
   def newEnemyAtRandomEdge = {
-    log.info("new Enemy at random edge")
     if (Random.nextBoolean) {
       if (Random.nextBoolean)
         new Enemy(world, Random.nextInt.abs % world.SIZE_X, 0)
@@ -61,12 +63,10 @@ class RunAway extends BasicGame("title") {
   }
 
   def removeShotEnemies {
-    bullets.foreach(b => enemies.map(e => {
-      if (b.isNear(e)) {
-        parties.remove(e)
-        log.info("enemy has been shot")
-      }
-    }))
+    bullets.foreach(b => enemies.map(e => if (b.isNear(e)) {
+      parties.remove(e)
+      score += 1
+      }))
   }
 
   var lastEnemyTime = System.currentTimeMillis
@@ -89,10 +89,11 @@ class RunAway extends BasicGame("title") {
 
   override def render(gc: GameContainer, g: Graphics) {
     parties.foreach(_.draw)
+    g.drawString("Score: "+score, world.SIZE_X-100, 5)
   }
 
   def isPlayerTouchingAnEnemy = {
-      enemies.map(player.isNear(_)).fold(false)(_ || _)
+    enemies.map(player.isNear(_)).fold(false)(_ || _)
   }
 }
 

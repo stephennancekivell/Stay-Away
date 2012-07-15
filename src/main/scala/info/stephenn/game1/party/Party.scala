@@ -24,7 +24,7 @@ class Party {
   }
   
   def isNear(p: Party) = {
-    val THRESHOLD = 30
+    val THRESHOLD = 15
     if ((x - p.x).abs < THRESHOLD &&
       (y - p.y).abs < THRESHOLD)
       true
