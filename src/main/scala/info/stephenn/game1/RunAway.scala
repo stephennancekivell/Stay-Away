@@ -16,39 +16,51 @@ import scala.collection.mutable.Set
 class RunAway extends BasicGame("title") {
   val log = LogFactory.getLog(getClass)
   val world = new World()
-
+  
+  var parties:  Set[Party] = Set()
   val player: Player = new Player()
-  val enemies: Set[Enemy] = Set()
+  parties += player
+  def enemies = parties.filter(_.getClass == classOf[Enemy]).map(_.asInstanceOf[Enemy])
+  def bullets = parties.filter(_.getClass == classOf[Bullet]).map(_.asInstanceOf[Bullet])
   val NO_ENEMIES = 10
-  for (x <- 0 to NO_ENEMIES) enemies += new Enemy(world)
+  for (x <- 0 to NO_ENEMIES) parties += new Enemy(world)
 
   override def init(gc: GameContainer) {
     player.init
     enemies.foreach(_.init)
   }
-
+  
   override def update(gc: GameContainer, delta: Int) {
-    val input = gc.getInput
+    handleInput(gc.getInput)
+    
+    if (isPlayerTouchingAnEnemy)
+      System.exit(0) //TODO game over message.
+
+    enemies.foreach(_.act)
+    bullets.foreach(_.act)
+  }
+  
+  def hasEnemyBeenShot {
+    bullets.foreach(b => enemies.map(e => b.isNear(e)))
+    
+  }
+  
+  def handleInput(input: Input) {
     if (input.isKeyDown(Input.KEY_LEFT)) player.moveLeft
     if (input.isKeyDown(Input.KEY_RIGHT)) player.moveRight
     if (input.isKeyDown(Input.KEY_UP)) player.moveUp
     if (input.isKeyDown(Input.KEY_DOWN)) player.moveDown
-
-    if (isPlayerTouchingAnEnemy)
-      System.exit(0)
-
-    enemies.foreach(_.act)
+    if (input.isKeyDown(Input.KEY_SPACE)) parties.add(player.shoot)
   }
 
   override def render(gc: GameContainer, g: Graphics) {
-    player.draw
-    enemies.foreach(_.draw)
+    parties.foreach(_.draw)
   }
 
   def isPlayerTouchingAnEnemy: Boolean = {
-    enemies.map(RunAway.isPlayerNearEnemy(player, _)).reduce(_ || _)
+    enemies.map(RunAway.arePartiesNear(player, _)).reduce(_ || _)
   }
-
+  
 }
 
 object RunAway {
@@ -58,12 +70,5 @@ object RunAway {
     app.start
   }
 
-  def isPlayerNearEnemy(p: Player, e: Enemy) = {
-    val THRESHOLD = 30
-    if ((e.x - p.x).abs < THRESHOLD &&
-      (e.y - p.y).abs < THRESHOLD)
-      true
-    else
-      false
-  }
+  def arePartiesNear(p: Party, e: Party) =  p.isNear(e)
 }

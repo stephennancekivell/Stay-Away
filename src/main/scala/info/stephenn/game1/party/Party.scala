@@ -11,11 +11,24 @@ class Party {
   var x = 200
   var y = 200
   val speed = 3
-  
-  def init { image = new Image(IMAGE_PATH) }
+  val SIZE_X = 200
+  val SIZE_Y = 200
 
-  def draw = {
-    log.info("draw")
-    image.draw(x, y)
+  def init = {
+    image = new Image(IMAGE_PATH)
+    this
+  }
+
+  def draw {
+    image.draw(x, y, SIZE_X, SIZE_Y)
+  }
+  
+  def isNear(p: Party) = {
+    val THRESHOLD = 30
+    if ((x - p.x).abs < THRESHOLD &&
+      (y - p.y).abs < THRESHOLD)
+      true
+    else
+      false
   }
 }

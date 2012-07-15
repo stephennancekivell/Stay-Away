@@ -17,7 +17,7 @@ class RunAwayTest {
     enemy.x = 50
     enemy.y = 50
     
-    assertTrue(RunAway.isPlayerNearEnemy(player, enemy))
+    assertTrue(RunAway.arePartiesNear(player, enemy))
   }
   
   @Test
@@ -31,6 +31,6 @@ class RunAwayTest {
     enemy.x = 81
     enemy.y = 81
     
-    assertFalse(RunAway.isPlayerNearEnemy(player, enemy))
+    assertFalse(RunAway.arePartiesNear(player, enemy))
   }
 }
