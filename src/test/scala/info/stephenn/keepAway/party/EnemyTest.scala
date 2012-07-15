@@ -21,8 +21,8 @@ class EnemyTest {
     val p = new Player(5,5)
     
     e.moveTowardParty(p)
-    assertEquals(4, e.x)
-    assertEquals(4, e.y)
+    assertEquals(1, e.x)
+    assertEquals(1, e.y)
   }
   
   @Test
@@ -31,8 +31,8 @@ class EnemyTest {
     val p = new Player(5,5)
     
     e.moveTowardParty(p)
-    assertEquals(5, e.x)
-    assertEquals(5, e.y)
+    assertEquals(8, e.x)
+    assertEquals(8, e.y)
   }
 
 }
