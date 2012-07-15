@@ -4,12 +4,12 @@ import java.awt.Graphics
 import org.apache.commons.logging.LogFactory
 import org.newdawn.slick.Image
 
-class Party {
+class Party(startX:Int, startY:Int) {
   val IMAGE_PATH = "red_ball.png"
   var image: Image = _
   val log = LogFactory.getLog(getClass)
-  var x = 200
-  var y = 200
+  var x = startX
+  var y = startY
   val speed = 3
   val SIZE_X = 200
   val SIZE_Y = 200

@@ -7,28 +7,16 @@ class PartyTest {
   
   @Test
   def whenIsNear = {
-    val a = new Party()
-    val b = new Party()
-    
-    a.x = 50
-    a.y = 50
-    
-    b.x = 50
-    b.y = 50
+    val a = new Party(50,50)
+    val b = new Party(50,50)
     
     assertTrue(a.isNear(b))
   }
   
   @Test
   def whenNotIsNear = {
-    val a = new Party()
-    val b = new Party()
-    
-    a.x = 50
-    a.y = 50
-    
-    b.x = 81
-    b.y = 81
+    val a = new Party(50,50)
+    val b = new Party(81,81)
     
     assertFalse(a.isNear(b))
   }

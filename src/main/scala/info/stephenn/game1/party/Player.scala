@@ -4,7 +4,7 @@ import org.newdawn.slick.Image
 import org.newdawn.slick.GameContainer
 import org.newdawn.slick.Input
 
-class Player extends Party {
+class Player(startX:Int, startY:Int) extends Party(startX, startY) {
   override val IMAGE_PATH = "blue_ball.png"
   override val speed = 3
   var dx:Int = 0

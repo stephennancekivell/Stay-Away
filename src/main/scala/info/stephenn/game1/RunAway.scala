@@ -15,12 +15,12 @@ import info.stephenn.game1.party._
 import scala.collection.mutable.Set
 import scala.util.Random
 
-class RunAway extends BasicGame("title") {
+class RunAway extends BasicGame("RunAway") {
   val log = LogFactory.getLog(getClass)
   val world = new World(800, 600)
 
   var parties: Set[Party] = Set()
-  val player: Player = new Player()
+  val player: Player = new Player(world.SIZE_X/2, world.SIZE_Y/2)
   parties += player
   def enemies = parties collect { case e: Enemy => e }
   def bullets = parties collect { case b: Bullet => b }
@@ -47,7 +47,7 @@ class RunAway extends BasicGame("title") {
       enemies.foreach(_.act(player))
       bullets.foreach(bullet => {
         bullet.act
-        if (bullet.isOffWorld(world)){
+        if (bullet.isOffWorld(world)) {
           log.info("bullet is off world")
           parties.remove(bullet)
         }
@@ -80,8 +80,8 @@ class RunAway extends BasicGame("title") {
     }))
   }
 
-  var lastEnemyTime = System.currentTimeMillis
-  var enemiesToAdd = 2
+  var lastEnemyTime = 0l
+  var enemiesToAdd = 1
   def makeNewEnemies {
     if (System.currentTimeMillis - lastEnemyTime > (1000 * 5)) {
       for (x <- 0 to enemiesToAdd) parties += newEnemyAtRandomEdge.init
@@ -105,18 +105,19 @@ class RunAway extends BasicGame("title") {
   }
 
   override def render(gc: GameContainer, g: Graphics) {
-    parties.foreach(_.draw)
     g.drawString("Score: " + score, world.SIZE_X - 100, 5)
-    g.drawString("parties.size "+parties.size, 5, 20)
-    if (!isRunning)
+    if (isRunning)
+      parties.foreach(_.draw)
+    else {
       if (gameOver)
         g.drawString("Game Over!", world.SIZE_X / 2, world.SIZE_Y / 2)
       else {
         g.drawString("Press Space to start", world.SIZE_X / 2 - 20, world.SIZE_Y / 2)
-        g.drawString("Dont let the reds touch the blue.", world.SIZE_X/2 - 25, world.SIZE_Y/2 + 20)
-        g.drawString("Press space to shoot.", world.SIZE_X/2 - 20, world.SIZE_Y/2 + 40)
+        g.drawString("Dont let the reds touch the blue.", world.SIZE_X / 2 - 25, world.SIZE_Y / 2 + 20)
+        g.drawString("Press space to shoot.", world.SIZE_X / 2 - 20, world.SIZE_Y / 2 + 40)
       }
-        
+    }
+
   }
 
   def isPlayerTouchingAnEnemy = {
@@ -128,6 +129,7 @@ object RunAway {
   def main(args: Array[String]) {
     val app = new AppGameContainer(new RunAway())
     app.setDisplayMode(800, 600, false)
+    app.setShowFPS(false)
     app.start
   }
 }

@@ -2,12 +2,10 @@ package info.stephenn.game1.party
 
 import info.stephenn.game1.World
 
-class Bullet(startX:Int, startY:Int, dx: Int, dy: Int) extends Party {
+class Bullet(startX:Int, startY:Int, dx: Int, dy: Int) extends Party(startX, startY) {
   override val IMAGE_PATH = "yellow_ball.png"
   override val speed = 7
-  x = startX
-  y = startY
-
+  
   def act {
     x += dx * speed
     y += dy * speed

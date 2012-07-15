@@ -18,9 +18,7 @@ class EnemyTest {
   @Test
   def doesMoveTowardPartyA {
     val e = new Enemy(new World(10, 10), 0, 0)
-    val p = new Player
-    p.x = 5
-    p.y = 5
+    val p = new Player(5,5)
     
     e.moveTowardParty(p)
     assertEquals(4, e.x)
@@ -30,9 +28,7 @@ class EnemyTest {
   @Test
   def doesMoveTowardPartyB {
     val e = new Enemy(new World(10, 10), 9, 9)
-    val p = new Player
-    p.x = 5
-    p.y = 5
+    val p = new Player(5,5)
     
     e.moveTowardParty(p)
     assertEquals(5, e.x)

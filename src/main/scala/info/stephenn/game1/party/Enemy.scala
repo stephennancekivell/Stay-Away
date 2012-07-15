@@ -4,13 +4,11 @@ import info.stephenn.game1._
 import scala.util.Random
 import org.newdawn.slick.Image
 
-class Enemy(world: World, startX: Int, startY: Int) extends Party {
+class Enemy(world: World, startX: Int, startY: Int) extends Party(startX, startY) {
   override val IMAGE_PATH = "red_ball.png"
   val r = new Random
   override val speed = 1
-  x = startX
-  y = startY
-
+  
   def act(player: Player) {
     moveTowardParty(player)
     wrapAroundWorld
