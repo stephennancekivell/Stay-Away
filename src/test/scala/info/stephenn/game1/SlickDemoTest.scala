@@ -4,7 +4,7 @@ import org.junit._
 import org.junit.Assert._
 import info.stephenn.game1.party._
 
-class AppTest {
+class SlickDemoTest {
   
   @Test
   def whenPlayerIsCloseToEnemy = {
@@ -17,7 +17,7 @@ class AppTest {
     enemy.x = 50
     enemy.y = 50
     
-    assertTrue(App.isPlayerNearEnemy(player, enemy))
+    assertTrue(SlickDemo.isPlayerNearEnemy(player, enemy))
   }
   
   @Test
@@ -31,6 +31,6 @@ class AppTest {
     enemy.x = 81
     enemy.y = 81
     
-    assertFalse(App.isPlayerNearEnemy(player, enemy))
+    assertFalse(SlickDemo.isPlayerNearEnemy(player, enemy))
   }
 }
