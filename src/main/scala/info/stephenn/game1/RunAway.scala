@@ -16,8 +16,8 @@ import scala.collection.mutable.Set
 class RunAway extends BasicGame("title") {
   val log = LogFactory.getLog(getClass)
   val world = new World()
-  
-  var parties:  Set[Party] = Set()
+
+  var parties: Set[Party] = Set()
   val player: Player = new Player()
   parties += player
   def enemies = parties.filter(_.getClass == classOf[Enemy]).map(_.asInstanceOf[Enemy])
@@ -29,22 +29,28 @@ class RunAway extends BasicGame("title") {
     player.init
     enemies.foreach(_.init)
   }
-  
+
   override def update(gc: GameContainer, delta: Int) {
     handleInput(gc.getInput)
-    
+
     if (isPlayerTouchingAnEnemy)
       System.exit(0) //TODO game over message.
+
+    removeShotEnemies
 
     enemies.foreach(_.act)
     bullets.foreach(_.act)
   }
-  
-  def hasEnemyBeenShot {
-    bullets.foreach(b => enemies.map(e => b.isNear(e)))
-    
+
+  def removeShotEnemies {
+    bullets.foreach(b => enemies.map(e => {
+      if (b.isNear(e)) {
+        parties.remove(e)
+        log.info("enemy has been shot")
+      }
+    }))
   }
-  
+
   def handleInput(input: Input) {
     if (input.isKeyDown(Input.KEY_LEFT)) player.moveLeft
     if (input.isKeyDown(Input.KEY_RIGHT)) player.moveRight
@@ -58,9 +64,8 @@ class RunAway extends BasicGame("title") {
   }
 
   def isPlayerTouchingAnEnemy: Boolean = {
-    enemies.map(RunAway.arePartiesNear(player, _)).reduce(_ || _)
+    enemies.map(player.isNear(_)).reduce(_ || _)
   }
-  
 }
 
 object RunAway {
@@ -69,6 +74,4 @@ object RunAway {
     app.setDisplayMode(800, 600, false)
     app.start
   }
-
-  def arePartiesNear(p: Party, e: Party) =  p.isNear(e)
 }
