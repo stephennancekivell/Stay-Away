@@ -7,29 +7,36 @@ import org.newdawn.slick.Image
 class Enemy(world: World, startX: Int, startY: Int) extends Party {
   override val IMAGE_PATH = "red_ball.png"
   val r = new Random
-  override val speed = 4
+  override val speed = 1
   x = startX
   y = startY
-  
-  log.info("new Enemy x,y:"+x+","+y)
 
-  def act {
-    moveInRandomDirection
+  def act(player: Player) {
+    moveTowardParty(player)
     wrapAroundWorld
   }
-  
+
+  def moveTowardParty(p: Party) {
+    if (p.x > x)
+      x += speed
+    else x -= speed
+    if (p.y > y)
+      y += speed
+    else y -= speed
+  }
+
   def moveInRandomDirection {
     if (Random.nextBoolean)
       x = x + speed
     else
       x = x - speed
-      
+
     if (Random.nextBoolean)
       y = y + speed
     else
       y = y - speed
   }
-  
+
   def wrapAroundWorld {
     if (x < 0)
       x = world.SIZE_X

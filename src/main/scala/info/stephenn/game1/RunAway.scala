@@ -23,7 +23,7 @@ class RunAway extends BasicGame("title") {
   parties += player
   def enemies = parties.filter(_.getClass == classOf[Enemy]).map(_.asInstanceOf[Enemy])
   def bullets = parties.filter(_.getClass == classOf[Bullet]).map(_.asInstanceOf[Bullet])
-  val NO_ENEMIES = 10
+  val NO_ENEMIES = 1
   for (x <- 0 to NO_ENEMIES) parties += newEnemyAtRandomEdge
 
   override def init(gc: GameContainer) {
@@ -39,7 +39,7 @@ class RunAway extends BasicGame("title") {
 
     removeShotEnemies
 
-    enemies.foreach(_.act)
+    enemies.foreach(_.act(player))
     bullets.foreach(_.act)
 
     makeNewEnemies
@@ -69,11 +69,15 @@ class RunAway extends BasicGame("title") {
     }))
   }
 
+  
+  var lastEnemyTime = System.currentTimeMillis
+  var enemiesToAdd = 2
   def makeNewEnemies {
-    if (enemies.size < 10) {
-      log.info("makeNew" + enemies.size)
-      parties += newEnemyAtRandomEdge.init
-    }
+    if (System.currentTimeMillis - lastEnemyTime > (1000 *  5)) {
+      for (x <- 0 to enemiesToAdd) parties += newEnemyAtRandomEdge.init
+      lastEnemyTime = System.currentTimeMillis
+      enemiesToAdd += 1
+    } 
   }
 
   def handleInput(input: Input) {
