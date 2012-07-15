@@ -117,7 +117,6 @@ class RunAway extends BasicGame("RunAway") {
         g.drawString("Press space to shoot.", world.SIZE_X / 2 - 20, world.SIZE_Y / 2 + 40)
       }
     }
-
   }
 
   def isPlayerTouchingAnEnemy = {
