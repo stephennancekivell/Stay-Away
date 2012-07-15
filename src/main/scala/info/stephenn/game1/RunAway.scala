@@ -92,10 +92,7 @@ class RunAway extends BasicGame("title") {
   }
 
   def isPlayerTouchingAnEnemy = {
-    if (enemies.isEmpty)
-      false
-    else
-      enemies.map(player.isNear(_)).reduce(_ || _)
+      enemies.map(player.isNear(_)).fold(false)(_ || _)
   }
 }
 
