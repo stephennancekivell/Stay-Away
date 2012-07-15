@@ -7,8 +7,8 @@ import org.newdawn.slick.Input
 class Player extends Party {
   override val IMAGE_PATH = "blue_ball.png"
   override val speed = 3
-  var dx:Int = _
-  var dy:Int = _
+  var dx:Int = 0
+  var dy:Int = 1
   
   def moveLeft = {
     x -= speed

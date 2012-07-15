@@ -63,7 +63,7 @@ class RunAway extends BasicGame("title") {
     parties.foreach(_.draw)
   }
 
-  def isPlayerTouchingAnEnemy: Boolean = {
+  def isPlayerTouchingAnEnemy = {
     enemies.map(player.isNear(_)).reduce(_ || _)
   }
 }
