@@ -12,6 +12,7 @@ import org.apache.commons.logging.LogFactory
 import info.stephenn.game1.party._
 
 import scala.collection.mutable.Set
+import scala.util.Random
 
 class RunAway extends BasicGame("title") {
   val log = LogFactory.getLog(getClass)
@@ -23,7 +24,7 @@ class RunAway extends BasicGame("title") {
   def enemies = parties.filter(_.getClass == classOf[Enemy]).map(_.asInstanceOf[Enemy])
   def bullets = parties.filter(_.getClass == classOf[Bullet]).map(_.asInstanceOf[Bullet])
   val NO_ENEMIES = 10
-  for (x <- 0 to NO_ENEMIES) parties += new Enemy(world)
+  for (x <- 0 to NO_ENEMIES) parties += newEnemyAtRandomEdge
 
   override def init(gc: GameContainer) {
     player.init
@@ -40,6 +41,23 @@ class RunAway extends BasicGame("title") {
 
     enemies.foreach(_.act)
     bullets.foreach(_.act)
+
+    makeNewEnemies
+  }
+
+  def newEnemyAtRandomEdge = {
+    log.info("new Enemy at random edge")
+    if (Random.nextBoolean) {
+      if (Random.nextBoolean)
+        new Enemy(world, Random.nextInt % world.SIZE_X, 0)
+      else
+        new Enemy(world, Random.nextInt % world.SIZE_X, world.SIZE_Y)
+    } else {
+      if (Random.nextBoolean)
+        new Enemy(world, 0, Random.nextInt % world.SIZE_Y)
+      else
+        new Enemy(world, world.SIZE_X, Random.nextInt % world.SIZE_Y)
+    }
   }
 
   def removeShotEnemies {
@@ -49,6 +67,11 @@ class RunAway extends BasicGame("title") {
         log.info("enemy has been shot")
       }
     }))
+  }
+
+  def makeNewEnemies {
+    if (enemies.size < 10)
+      parties += newEnemyAtRandomEdge.init
   }
 
   def handleInput(input: Input) {

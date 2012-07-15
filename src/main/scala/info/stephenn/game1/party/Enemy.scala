@@ -4,12 +4,12 @@ import info.stephenn.game1._
 import scala.util.Random
 import org.newdawn.slick.Image
 
-class Enemy(world: World) extends Party {
+class Enemy(world: World, startX: Int, startY: Int) extends Party {
   override val IMAGE_PATH = "red_ball.png"
   val r = new Random
   override val speed = 4
-  x = world.SIZE_X - 50
-  y = world.SIZE_Y - 50
+  x = startX
+  y = startY
 
   def act {
     if (Random.nextBoolean)
