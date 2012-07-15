@@ -1,9 +1,9 @@
-package info.stephenn.game1.party
+package info.stephenn.keepAway.party
 
 import org.junit.Test
 import org.junit.Assert._
 
-import info.stephenn.game1._
+import info.stephenn.keepAway.World
 
 class BulletTest {
   

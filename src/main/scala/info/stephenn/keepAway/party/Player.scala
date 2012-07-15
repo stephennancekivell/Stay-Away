@@ -1,4 +1,4 @@
-package info.stephenn.game1.party
+package info.stephenn.keepAway.party
 
 import org.newdawn.slick.Image
 import org.newdawn.slick.GameContainer

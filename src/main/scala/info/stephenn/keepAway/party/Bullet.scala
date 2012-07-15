@@ -1,6 +1,6 @@
-package info.stephenn.game1.party
+package info.stephenn.keepAway.party
 
-import info.stephenn.game1.World
+import info.stephenn.keepAway.World
 
 class Bullet(startX:Int, startY:Int, dx: Int, dy: Int) extends Party(startX, startY) {
   override val IMAGE_PATH = "yellow_ball.png"

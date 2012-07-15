@@ -1,4 +1,4 @@
-package info.stephenn.game1.party
+package info.stephenn.keepAway.party
 
 import org.junit.Test
 import org.junit.Assert._

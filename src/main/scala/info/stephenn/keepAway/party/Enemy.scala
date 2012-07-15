@@ -1,6 +1,6 @@
-package info.stephenn.game1.party
+package info.stephenn.keepAway.party
 
-import info.stephenn.game1._
+import info.stephenn.keepAway.World;
 import scala.util.Random
 import org.newdawn.slick.Image
 

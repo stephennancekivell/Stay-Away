@@ -1,4 +1,4 @@
-package info.stephenn.game1
+package info.stephenn.keepAway
 
 import org.newdawn.slick.AppGameContainer
 import org.newdawn.slick.BasicGame
@@ -10,12 +10,12 @@ import org.newdawn.slick.SlickException
 import org.apache.commons.logging.LogFactory
 import org.newdawn.slick.Color
 
-import info.stephenn.game1.party._
+import info.stephenn.keepAway.party._
 
 import scala.collection.mutable.Set
 import scala.util.Random
 
-class RunAway extends BasicGame("RunAway") {
+class KeepAway extends BasicGame("Keep Away") {
   val log = LogFactory.getLog(getClass)
   val world = new World(800, 600)
 
@@ -112,11 +112,17 @@ class RunAway extends BasicGame("RunAway") {
       if (gameOver)
         g.drawString("Game Over!", world.SIZE_X / 2, world.SIZE_Y / 2)
       else {
-        g.drawString("Press Space to start", world.SIZE_X / 2 - 20, world.SIZE_Y / 2)
-        g.drawString("Dont let the reds touch the blue.", world.SIZE_X / 2 - 25, world.SIZE_Y / 2 + 20)
-        g.drawString("Press space to shoot.", world.SIZE_X / 2 - 20, world.SIZE_Y / 2 + 40)
+        drawWelcomeMessages(Array("Keep the reds away from the blue.","Press space to shoot.","Arrows to move.","Press Space to start."),g)
       }
     }
+  }
+  
+  def drawWelcomeMessages(lines: Array[String], g: Graphics) {
+    lines.foreach(line => {
+      g.drawString(line,
+          (world.SIZE_X / 2) - (line.length / 2 * 10),
+          (world.SIZE_Y / 2) + (20 * lines.indexOf(line)) - (lines.size * 10))
+    })
   }
 
   def isPlayerTouchingAnEnemy = {
@@ -124,9 +130,9 @@ class RunAway extends BasicGame("RunAway") {
   }
 }
 
-object RunAway {
+object KeepAway {
   def main(args: Array[String]) {
-    val app = new AppGameContainer(new RunAway())
+    val app = new AppGameContainer(new KeepAway())
     app.setDisplayMode(800, 600, false)
     app.setShowFPS(false)
     app.start

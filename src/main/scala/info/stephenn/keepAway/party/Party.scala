@@ -1,6 +1,5 @@
-package info.stephenn.game1.party
+package info.stephenn.keepAway.party
 
-import java.awt.Graphics
 import org.apache.commons.logging.LogFactory
 import org.newdawn.slick.Image
 
