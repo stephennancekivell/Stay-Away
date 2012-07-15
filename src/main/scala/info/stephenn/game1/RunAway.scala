@@ -13,7 +13,7 @@ import info.stephenn.game1.party._
 
 import scala.collection.mutable.Set
 
-class SlickDemo extends BasicGame("title") {
+class RunAway extends BasicGame("title") {
   val log = LogFactory.getLog(getClass)
   val world = new World()
 
@@ -46,14 +46,14 @@ class SlickDemo extends BasicGame("title") {
   }
 
   def isPlayerTouchingAnEnemy: Boolean = {
-    enemies.map(SlickDemo.isPlayerNearEnemy(player, _)).reduce(_ || _)
+    enemies.map(RunAway.isPlayerNearEnemy(player, _)).reduce(_ || _)
   }
 
 }
 
-object SlickDemo {
+object RunAway {
   def main(args: Array[String]) {
-    val app = new AppGameContainer(new SlickDemo())
+    val app = new AppGameContainer(new RunAway())
     app.setDisplayMode(800, 600, false)
     app.start
   }
