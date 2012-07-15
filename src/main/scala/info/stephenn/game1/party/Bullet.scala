@@ -14,7 +14,7 @@ class Bullet(startX:Int, startY:Int, dx: Int, dy: Int) extends Party {
   }
 
   def isOffWorld(world: World) = {
-    ((x < 0 | x > world.SIZE_X) &&
+    ((x < 0 | x > world.SIZE_X) |
       (y < 0 | y > world.SIZE_Y))
   }
 }

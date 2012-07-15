@@ -22,11 +22,11 @@ class RunAway extends BasicGame("title") {
   var parties: Set[Party] = Set()
   val player: Player = new Player()
   parties += player
-  def enemies = parties.filter(_.getClass == classOf[Enemy]).map(_.asInstanceOf[Enemy])
-  def bullets = parties.filter(_.getClass == classOf[Bullet]).map(_.asInstanceOf[Bullet])
-  val NO_ENEMIES = 1
-  for (x <- 0 to NO_ENEMIES) parties += newEnemyAtRandomEdge
-  
+  def enemies = parties collect { case e: Enemy => e }
+  def bullets = parties collect { case b: Bullet => b }
+
+  var isRunning = false
+  var gameOver = false
   var score = 0
 
   override def init(gc: GameContainer) {
@@ -35,17 +35,28 @@ class RunAway extends BasicGame("title") {
   }
 
   override def update(gc: GameContainer, delta: Int) {
-    handleInput(gc.getInput)
+    if (isPlayerTouchingAnEnemy) {
+      isRunning = false
+      gameOver = true
+    }
 
-    if (isPlayerTouchingAnEnemy)
-      System.exit(0) //TODO game over message.
+    if (isRunning) {
+      handlePlayingInput(gc.getInput)
+      removeShotEnemies
 
-    removeShotEnemies
-    
-    enemies.foreach(_.act(player))
-    bullets.foreach(_.act)
-    
-    makeNewEnemies
+      enemies.foreach(_.act(player))
+      bullets.foreach(bullet => {
+        bullet.act
+        if (bullet.isOffWorld(world)){
+          log.info("bullet is off world")
+          parties.remove(bullet)
+        }
+      })
+
+      makeNewEnemies
+    } else {
+      handleMenuInput(gc.getInput)
+    }
   }
 
   def newEnemyAtRandomEdge = {
@@ -63,10 +74,10 @@ class RunAway extends BasicGame("title") {
   }
 
   def removeShotEnemies {
-    bullets.foreach(b => enemies.map(e => if (b.isNear(e)) {
-      parties.remove(e)
+    bullets.foreach(bullet => enemies.foreach(enemy => if (bullet.isNear(enemy)) {
+      parties.remove(enemy)
       score += 1
-      }))
+    }))
   }
 
   var lastEnemyTime = System.currentTimeMillis
@@ -79,7 +90,7 @@ class RunAway extends BasicGame("title") {
     }
   }
 
-  def handleInput(input: Input) {
+  def handlePlayingInput(input: Input) {
     if (input.isKeyDown(Input.KEY_LEFT)) player.moveLeft
     if (input.isKeyDown(Input.KEY_RIGHT)) player.moveRight
     if (input.isKeyDown(Input.KEY_UP)) player.moveUp
@@ -87,9 +98,25 @@ class RunAway extends BasicGame("title") {
     if (input.isKeyDown(Input.KEY_SPACE)) parties.add(player.shoot)
   }
 
+  def handleMenuInput(input: Input) {
+    if (input.isKeyDown(Input.KEY_SPACE) | input.isKeyDown(Input.KEY_SPACE)) {
+      isRunning = !isRunning
+    }
+  }
+
   override def render(gc: GameContainer, g: Graphics) {
     parties.foreach(_.draw)
-    g.drawString("Score: "+score, world.SIZE_X-100, 5)
+    g.drawString("Score: " + score, world.SIZE_X - 100, 5)
+    g.drawString("parties.size "+parties.size, 5, 20)
+    if (!isRunning)
+      if (gameOver)
+        g.drawString("Game Over!", world.SIZE_X / 2, world.SIZE_Y / 2)
+      else {
+        g.drawString("Press Space to start", world.SIZE_X / 2 - 20, world.SIZE_Y / 2)
+        g.drawString("Dont let the reds touch the blue.", world.SIZE_X/2 - 25, world.SIZE_Y/2 + 20)
+        g.drawString("Press space to shoot.", world.SIZE_X/2 - 20, world.SIZE_Y/2 + 40)
+      }
+        
   }
 
   def isPlayerTouchingAnEnemy = {
