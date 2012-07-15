@@ -1,6 +1,3 @@
 package info.stephenn.game1
 
-class World {
-  val SIZE_X = 800
-  val SIZE_Y = 600
-}
+case class World(SIZE_X: Int, SIZE_Y: Int)

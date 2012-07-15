@@ -16,7 +16,7 @@ import scala.util.Random
 
 class RunAway extends BasicGame("title") {
   val log = LogFactory.getLog(getClass)
-  val world = new World()
+  val world = new World(800,600)
 
   var parties: Set[Party] = Set()
   val player: Player = new Player()
@@ -49,14 +49,14 @@ class RunAway extends BasicGame("title") {
     log.info("new Enemy at random edge")
     if (Random.nextBoolean) {
       if (Random.nextBoolean)
-        new Enemy(world, Random.nextInt % world.SIZE_X, 0)
+        new Enemy(world, Random.nextInt.abs % world.SIZE_X, 0)
       else
-        new Enemy(world, Random.nextInt % world.SIZE_X, world.SIZE_Y)
+        new Enemy(world, Random.nextInt.abs % world.SIZE_X, world.SIZE_Y)
     } else {
       if (Random.nextBoolean)
-        new Enemy(world, 0, Random.nextInt % world.SIZE_Y)
+        new Enemy(world, 0, Random.nextInt.abs % world.SIZE_Y)
       else
-        new Enemy(world, world.SIZE_X, Random.nextInt % world.SIZE_Y)
+        new Enemy(world, world.SIZE_X, Random.nextInt.abs % world.SIZE_Y)
     }
   }
 
@@ -70,8 +70,10 @@ class RunAway extends BasicGame("title") {
   }
 
   def makeNewEnemies {
-    if (enemies.size < 10)
+    if (enemies.size < 10) {
+      log.info("makeNew" + enemies.size)
       parties += newEnemyAtRandomEdge.init
+    }
   }
 
   def handleInput(input: Input) {
