@@ -48,7 +48,6 @@ class KeepAway extends BasicGame("Keep Away") {
       bullets.foreach(bullet => {
         bullet.act
         if (bullet.isOffWorld(world)) {
-          log.info("bullet is off world")
           parties.remove(bullet)
         }
       })
