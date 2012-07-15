@@ -16,7 +16,7 @@ import scala.util.Random
 
 class RunAway extends BasicGame("title") {
   val log = LogFactory.getLog(getClass)
-  val world = new World(800,600)
+  val world = new World(800, 600)
 
   var parties: Set[Party] = Set()
   val player: Player = new Player()
@@ -69,15 +69,14 @@ class RunAway extends BasicGame("title") {
     }))
   }
 
-  
   var lastEnemyTime = System.currentTimeMillis
   var enemiesToAdd = 2
   def makeNewEnemies {
-    if (System.currentTimeMillis - lastEnemyTime > (1000 *  5)) {
+    if (System.currentTimeMillis - lastEnemyTime > (1000 * 5)) {
       for (x <- 0 to enemiesToAdd) parties += newEnemyAtRandomEdge.init
       lastEnemyTime = System.currentTimeMillis
       enemiesToAdd += 1
-    } 
+    }
   }
 
   def handleInput(input: Input) {
@@ -93,7 +92,10 @@ class RunAway extends BasicGame("title") {
   }
 
   def isPlayerTouchingAnEnemy = {
-    enemies.map(player.isNear(_)).reduce(_ || _)
+    if (enemies.isEmpty)
+      false
+    else
+      enemies.map(player.isNear(_)).reduce(_ || _)
   }
 }
 
