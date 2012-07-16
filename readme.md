@@ -2,7 +2,7 @@
 A simple game akin to space invaders.
 Make the red circles stay away from the blue one.
 
-![screenshot](screenshot.png)
+![screenshot](./Stay-Away/screenshot.png)
 
 # lwjgl #
 Slick depends on lwjgl version 2.1.0
